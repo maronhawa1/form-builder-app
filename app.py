@@ -12,13 +12,16 @@ app.secret_key = "CHANGE_THIS_SECRET_KEY"
 import os
 
 def get_db():
-    mongo_uri = os.environ.get("MONGO_URI", "mongodb://localhost:27017/form_app")
-    client = MongoClient(mongo_uri)
-    if mongo_uri.startswith("mongodb+srv://"):
-      db = client['form-db']
-  # שם הדאטהבייס בענן
+    # אם יש MONGO_URI (בענן)
+    mongo_uri = os.environ.get("MONGO_URI")
+
+    if mongo_uri:
+        client = MongoClient(mongo_uri)
+        db = client["form_app"]   # ← אותו שם גם לענן
     else:
-      db = client['form-db']
+        # מצב לוקאלי
+        client = MongoClient("mongodb://localhost:27017/")
+        db = client["form_app"]   # ← אותו שם גם ללוקאל
 
     return db
 
