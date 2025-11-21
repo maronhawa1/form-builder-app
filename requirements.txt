@@ -1,0 +1,5 @@
+Flask
+pymongo
+dnspython
+Werkzeug
+MONGO_URI=mongodb+srv://maronhawa13:<db_password>@form-db.g8letr7.mongodb.net/?appName=form-db

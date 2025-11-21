@@ -1,0 +1,18 @@
+{% extends "base.html" %} {% block content %}
+<div class="text-center">
+  <h1 class="mb-3">ברוך הבא למערכת הטפסים</h1>
+  <p>צור טפסים, שתף קישורים ואסוף תשובות במקום אחד.</p>
+
+  {% if session.get('user_id') %}
+  <!-- אם המשתמש מחובר -->
+  <a href="{{ url_for('dashboard') }}" class="btn btn-primary mt-3">
+    מעבר לדשבורד
+  </a>
+  {% else %}
+  <!-- אם המשתמש לא מחובר -->
+  <a href="{{ url_for('register') }}" class="btn btn-primary mt-3">
+    התחל הרשמה
+  </a>
+  {% endif %}
+</div>
+{% endblock %}

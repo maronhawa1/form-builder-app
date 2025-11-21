@@ -1,0 +1,102 @@
+{% extends "base.html" %} {% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <h2 class="mb-4">צור טופס חדש</h2>
+
+    <form method="post">
+      <!-- כותרת ותיאור הטופס -->
+      <div class="mb-3">
+        <label class="form-label">שם הטופס</label>
+        <input type="text" name="title" class="form-control" required />
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">תיאור (אופציונלי)</label>
+        <textarea name="description" class="form-control" rows="2"></textarea>
+      </div>
+
+      <hr />
+
+      <h5 class="mb-3">שדות הטופס</h5>
+
+      <!-- כאן יופיעו השדות -->
+      <div id="fields-container"></div>
+
+      <button
+        type="button"
+        class="btn btn-outline-primary mb-3"
+        onclick="addField()"
+      >
+        + הוסף שדה
+      </button>
+
+      <div class="mt-3">
+        <button type="submit" class="btn btn-success">שמור טופס</button>
+        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">ביטול</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  function addField() {
+    const container = document.getElementById("fields-container");
+
+    const div = document.createElement("div");
+    div.className = "border rounded p-2 mb-2";
+
+    div.innerHTML = `
+      <div class="row g-2 align-items-center">
+        <div class="col-md-4">
+          <label class="form-label">תווית השדה</label>
+          <input type="text" name="field_label[]" class="form-control" placeholder="למשל: שם מלא" required />
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">סוג שדה</label>
+          <select name="field_type[]" class="form-select" onchange="onTypeChange(this)">
+            <option value="text">טקסט</option>
+            <option value="email">אימייל</option>
+            <option value="number">מספר</option>
+            <option value="date">תאריך</option>
+            <option value="textarea">טקסט ארוך</option>
+            <option value="checkbox">תיבת סימון (כן/לא)</option>
+            <option value="checkbox_group">כמה צ׳קבוקסים (אפשר לבחור כמה)</option>
+            <option value="select">בחירה מרשימה (Select)</option>
+          </select>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">אפשרויות (לבחירה / צ׳קבוקסים)</label>
+          <input type="text" name="field_options[]" class="form-control field-options-input"
+                 placeholder="למשל: חדש,קיים,VIP" disabled />
+          <small class="text-muted">להשתמש רק אם סוג השדה הוא בחירה או צ׳קבוקסים מרובים.</small>
+        </div>
+        <div class="col-md-1 text-end">
+          <button type="button" class="btn btn-outline-danger mt-4" onclick="this.closest('.border').remove()">
+            מחק
+          </button>
+        </div>
+      </div>
+    `;
+
+    container.appendChild(div);
+  }
+
+  function onTypeChange(selectEl) {
+    const wrapper = selectEl.closest(".row");
+    const optionsInput = wrapper.querySelector(".field-options-input");
+    const val = selectEl.value;
+
+    if (val === "select" || val === "checkbox_group") {
+      optionsInput.disabled = false;
+    } else {
+      optionsInput.disabled = true;
+      optionsInput.value = "";
+    }
+  }
+
+  // ברירת מחדל – שדה אחד כבר קיים כשנכנסים לדף
+  document.addEventListener("DOMContentLoaded", () => {
+    addField();
+  });
+</script>
+{% endblock %}

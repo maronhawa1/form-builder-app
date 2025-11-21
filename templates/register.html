@@ -1,0 +1,32 @@
+{% extends "base.html" %} {% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-5">
+    <h2 class="mb-4">הרשמה</h2>
+    <form method="post">
+      <div class="mb-3">
+        <label class="form-label">שם מלא</label>
+        <input type="text" name="name" class="form-control" required />
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">אימייל</label>
+        <input type="email" name="email" class="form-control" required />
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">סיסמה</label>
+        <input
+          type="password"
+          name="password"
+          class="form-control"
+          required
+          minlength="4"
+        />
+      </div>
+
+      <button type="submit" class="btn btn-primary">הרשמה</button>
+      <a href="{{ url_for('login') }}" class="btn btn-link">כבר יש לך משתמש?</a>
+    </form>
+  </div>
+</div>
+{% endblock %}

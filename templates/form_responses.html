@@ -1,0 +1,35 @@
+{% extends "base.html" %} {% block content %}
+<h2 class="mb-3">תשובות לטופס: {{ form.title }}</h2>
+
+{% if responses and responses|length > 0 %}
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      {% for field in form.fields %}
+      <th>{{ field.label }}</th>
+      {% endfor %}
+      <th>תאריך</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for r in responses %}
+    <tr>
+      {% for field in form.fields %}
+      <td>{{ r.answers.get(field.name, "") }}</td>
+      {% endfor %}
+      <td>
+        {% if r.created_at %} {{ r.created_at.strftime("%Y-%m-%d %H:%M") }} {%
+        else %} - {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<div class="alert alert-info">אין עדיין תשובות לטופס זה.</div>
+{% endif %}
+
+<a href="{{ url_for('dashboard') }}" class="btn btn-secondary mt-3"
+  >חזרה לדשבורד</a
+>
+{% endblock %}
