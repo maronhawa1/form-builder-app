@@ -15,9 +15,11 @@ def get_db():
     mongo_uri = os.environ.get("MONGO_URI", "mongodb://localhost:27017/form_app")
     client = MongoClient(mongo_uri)
     if mongo_uri.startswith("mongodb+srv://"):
-        db = client['form_app']  # שם הדאטהבייס בענן
+      db = client['form-db']
+  # שם הדאטהבייס בענן
     else:
-        db = client['form_app']
+      db = client['form-db']
+
     return db
 
 db = get_db()
