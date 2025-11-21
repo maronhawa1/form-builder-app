@@ -2,3 +2,4 @@ Flask
 pymongo
 dnspython
 Werkzeug
+gunicorn
